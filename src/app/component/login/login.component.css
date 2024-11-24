@@ -1,0 +1,69 @@
+.login-body{
+    height: 384px;
+    width: 21rem;
+}
+
+body {
+    display: flex;
+    justify-content: center;  
+    align-items: center;      
+    height: 100vh;            
+    margin: 0;                
+}
+
+.login-name{
+    margin-left: 112px;
+    margin-top: -16px;
+    color: black;
+    font-weight: 500px;
+}
+
+#float-input{
+    width: 292px;
+    height: 42px;
+}
+
+.user-password{
+    margin-top: 22px;
+}
+
+#password{
+    width: 292px;
+    height: 42px
+}
+
+.captcha{
+    margin-top: 22px;
+    width: 80px;
+    height: 30px;
+    border-radius: 5px;
+    pointer-events: none;
+    padding: 10px;
+}
+
+.captcha-text{
+    margin-top: 25px;
+}
+
+.captcha-box{
+    padding: 10px;
+    text-align: center;
+    justify-content: center;
+}
+
+.refresh-button {
+    height: 30px;
+    width: 30px;
+}
+
+.p-button{
+    margin-left: 100px;
+    margin-top: 20px;
+    height: 30px;
+    width: 100px;
+}
+
+
+
+
+
