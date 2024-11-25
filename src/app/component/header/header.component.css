@@ -1,0 +1,36 @@
+.size-12{font-size: 12px;}
+.size-14{font-size: 14px;}
+.size-16{font-size: 16px;}
+
+.main-header{
+    background: #fff;
+    box-shadow: 0 -1px 0px -5px rgba(0, 0, 0, 0.2), 0 3px 4px 0 rgba(0, 0, 0, 0.14), 0 -2px 0px 0 rgba(0, 0, 0, 0.12);
+    height: 50px; 
+    position: fixed;
+    top:0px
+}
+.logo{
+    width: 125px;
+    padding: 2px 3px;
+    margin: 0px 12px;
+}
+
+.right-side{height: 50px; margin-top: -5px; margin-left: -20px;}
+
+ul{
+    list-style: none;
+    margin: 7px 0px;
+}
+.time, .date{
+    width: 7rem;
+}
+.profile{
+    margin-left: 2rem;
+}
+.profile .p-dropdown{
+background: none;
+border: none;
+box-shadow: none;
+}
+.profile .p-dropdown .p-dropdown-label.p-placeholder {font-size: 12px; width: 4rem;}
+.profile .p-dropdown .p-dropdown-trigger .p-icon-wrapper{font-size: 12px;}

@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from './component/login/login.component';
 import { DashboardComponent } from './component/dashboard/dashboard.component';
+import { HeaderComponent } from './component/header/header.component';
 
 export const routes: Routes = [
     {
@@ -10,7 +11,12 @@ export const routes: Routes = [
         path:'login', component:LoginComponent
     },
     {
-        path:'dashboard', component:DashboardComponent
+        path:'', component: HeaderComponent,
+        children:[
+            {
+                path:'dashboard', component:DashboardComponent
+            }
+        ]
+        
     }
-    
 ];

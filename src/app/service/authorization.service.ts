@@ -16,14 +16,6 @@ export class AuthorizationService implements OnInit {
   }
 
   getAllServers(): Observable<any> {
-    return this.http.post("http://localhost:9010/server_details/get_all", {}).pipe(
-      // Optional: Handle successful response
-      catchError((error) => {
-        console.error('Error occurred during the HTTP request:', error);
-        
-        // Return a fallback value or empty observable
-        return of({ error: 'An error occurred while fetching server details' });
-      })
-    );
+    return this.http.get("http://localhost:9010/server_details/get_all");
   }
 }

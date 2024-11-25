@@ -1,26 +1,39 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { AuthorizationService } from '../../service/authorization.service';
-import { HttpClientModule  } from '@angular/common/http';  // Import provideHttpClient
+import { TableModule } from 'primeng/table';
+import { CommonModule } from '@angular/common';
+
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [HttpClientModule],
+  imports: [TableModule, CommonModule],
   templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.css'
+  styleUrl: './dashboard.component.css',
+  encapsulation: ViewEncapsulation.None
 })
-export class DashboardComponent implements OnInit{
+export class DashboardComponent implements OnInit {
 
   servers: any[] = [];
 
-  errorMessage: string = '';  
-  
-  constructor(private authorizationService : AuthorizationService) {}
+  errorMessage: string = '';
+
+  cols: any[] = [];
+
+  constructor(private authorizationService: AuthorizationService) { }
   ngOnInit(): void {
-    this.getAllServersList();
+    this.cols = [
+      { field: 'serverName', header: 'serverName' },
+      { field: 'serverIp', header: 'serverIp' },
+      { field: 'serverPort', header: 'serverPort' },
+      { field: 'serverStatus', header: 'serverStatus' }
+    ];
+
   }
 
-  getAllServersList(){
+
+
+  getAllServersList() {
     this.authorizationService.getAllServers().subscribe(
       (response) => {
         if (response.error) {
@@ -29,6 +42,7 @@ export class DashboardComponent implements OnInit{
         } else {
           // Handle successful response
           this.servers = response; // Assuming response contains the server data
+          console.log(this.servers);
         }
       },
       (error) => {

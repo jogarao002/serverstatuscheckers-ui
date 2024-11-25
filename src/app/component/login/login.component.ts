@@ -7,12 +7,11 @@ import { ButtonModule } from 'primeng/button';
 import { CommonModule } from '@angular/common';
 import { AuthenticationService } from '../../service/authentication.service';
 import { Login } from '../../interface/login';
-import { HttpClientModule  } from '@angular/common/http';  // Import provideHttpClient
 import { Router } from '@angular/router';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CardModule, InputTextModule, FormsModule, PasswordModule, ButtonModule, CommonModule, HttpClientModule ],
+  imports: [CardModule, InputTextModule, FormsModule, PasswordModule, ButtonModule, CommonModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
   encapsulation:ViewEncapsulation.None
@@ -47,6 +46,7 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() {
+    debugger
     const loginData: Login = {
       loginUserName: this.loginUserName,
       loginPassword: this.loginPassword
