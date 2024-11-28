@@ -15,6 +15,12 @@ export class AuthenticationService {
     return this.http.post("http://localhost:9010/server_details/login", login);
   }
 
+  // Check if the user is authenticated (token exists and is valid)
+  isAuthenticated(): boolean {
+    const token = localStorage.getItem('authToken'); // Or sessionStorage, depending on your choice
+    return !!token;
+  }
+
   storeUserData(response: any): void {
     // Store the token and role
     debugger

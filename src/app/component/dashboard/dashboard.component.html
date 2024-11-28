@@ -1,6 +1,6 @@
 
-<div class="card">
-    <p-table [columns]="cols" [value]="servers" [tableStyle]="{ 'min-width': '50rem' }">
+<div class="border p-3 rounded shadow-sm">
+    <p-table [columns]="cols" [value]="servers">
         <ng-template pTemplate="header" let-columns>
             <tr>
                 <th *ngFor="let col of columns">

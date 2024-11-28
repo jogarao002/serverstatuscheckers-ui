@@ -15,6 +15,16 @@ export class authGuard implements CanActivate {
     state: RouterStateSnapshot
   ): Observable<boolean> | Promise<boolean> | boolean {
     debugger
+
+    // Check if the user is authenticated
+    const isAuthenticated = this.authService.isAuthenticated();  // Ensure this checks the token presence or validity
+
+    if (!isAuthenticated) {
+      // If the user is not authenticated, redirect to login
+      this.router.navigateByUrl('/login');
+      return false;
+    }
+
     // Get the role of the current user
     const role = this.authService.getUserRole();
 

@@ -1,19 +1,20 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { DatePipe } from '@angular/common';
-import { DropdownModule } from 'primeng/dropdown';
-import { FormControl, FormGroup, FormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { RouterOutlet } from '@angular/router';
-
+import { AuthenticationService } from '../../service/authentication.service';
+import { Router } from '@angular/router';
 
 
 interface City {
-  name: string;
-  code: string;
+  name: string,
+  code: string
 }
+
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [DatePipe, DropdownModule, FormsModule, RouterOutlet, FormGroup],
+  imports: [DatePipe, FormsModule, RouterOutlet],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css',
   encapsulation: ViewEncapsulation.None
@@ -26,26 +27,20 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   private intervalId: any;
 
-  cities: City[] | undefined;
+  username: any;
 
-  formGroup: FormGroup | undefined;
+  constructor(private authenticationService: AuthenticationService, private router:Router) {
+  }
 
   ngOnInit(): void {
+
+    this.username = this.authenticationService.getuserName();
     // Set the current time and start updating it every second
     this.updateTime();
     this.intervalId = setInterval(() => this.updateTime(), 1000);
-    this.cities = [
-      { name: 'New York', code: 'NY' },
-      { name: 'Rome', code: 'RM' },
-      { name: 'London', code: 'LDN' },
-      { name: 'Istanbul', code: 'IST' },
-      { name: 'Paris', code: 'PRS' }
-    ];
 
-    this.formGroup = new FormGroup({
-      selectedCity: new FormControl<City | null>(null)
-    });
   }
+
   ngOnDestroy(): void {
     clearInterval(this.intervalId);
   }
@@ -73,6 +68,21 @@ export class HeaderComponent implements OnInit, OnDestroy {
     // Combine into a string with AM/PM
     this.currentTime = `${hours}:${formattedMinutes}:${formattedSeconds} ${ampm}`;
 
+  }
+
+  onDropdownChange(event: any): void {
+    debugger
+    const selectedValue = event.target.value;
+    if (selectedValue === '1') {
+      this.logout();
+    }
+  }
+  
+
+  logout(): void {
+    debugger
+    this.authenticationService.logout();
+    this.router.navigateByUrl('/login');
   }
 
 }

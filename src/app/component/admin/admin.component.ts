@@ -2,11 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { AuthorizationService } from '../../service/authorization.service';
 import { TableModule } from 'primeng/table';
 import { CommonModule } from '@angular/common';
+import { ButtonModule } from 'primeng/button';
+import { InputTextModule } from 'primeng/inputtext';
+import { DropdownModule } from 'primeng/dropdown';
+
 
 @Component({
   selector: 'app-admin',
   standalone: true,
-  imports: [TableModule, CommonModule],
+  imports: [TableModule, CommonModule, ButtonModule, InputTextModule, DropdownModule],
   templateUrl: './admin.component.html',
   styleUrl: './admin.component.css'
 })
@@ -18,6 +22,7 @@ export class AdminComponent implements OnInit {
   cols: any[] = [];
 
   constructor(private authorizationService: AuthorizationService) { }
+  
   ngOnInit(): void {
     this.cols = [
       { field: 'serverName', header: 'serverName' },
@@ -27,8 +32,6 @@ export class AdminComponent implements OnInit {
     ];
 
   }
-
-
 
   getAllServersList() {
     this.authorizationService.getAllServers().subscribe(
@@ -49,4 +52,5 @@ export class AdminComponent implements OnInit {
       }
     );
   }
+
 }
