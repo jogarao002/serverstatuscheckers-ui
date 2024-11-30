@@ -1,7 +1,9 @@
-export interface ServerStatus {
+export interface ServerDetails {
     hostName?:any;
+    serverProtocolType?:any;
     serverIpAddress?:any;
     serverPort?:any;
+    serverStatus?:any;
     serviceName?:any;
-    serverStatusName?:any;
+    
 }

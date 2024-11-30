@@ -1,8 +1,8 @@
-import { Component, OnInit, ViewEncapsulation} from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { CardModule } from 'primeng/card';
-import {InputTextModule} from 'primeng/inputtext';
+import { InputTextModule } from 'primeng/inputtext';
 import { FormsModule } from '@angular/forms';
-import {PasswordModule} from 'primeng/password';
+import { PasswordModule } from 'primeng/password';
 import { ButtonModule } from 'primeng/button';
 import { CommonModule } from '@angular/common';
 import { AuthenticationService } from '../../service/authentication.service';
@@ -14,19 +14,19 @@ import { Router } from '@angular/router';
   imports: [CardModule, InputTextModule, FormsModule, PasswordModule, ButtonModule, CommonModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
-  encapsulation:ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None
 })
 export class LoginComponent implements OnInit {
-  loginPassword:any;
-  loginUserName:any;
-  generatedCaptcha:any;  
-  userCaptcha:any;
+  loginPassword: any;
+  loginUserName: any;
+  generatedCaptcha: any;
+  userCaptcha: any;
 
-  constructor(private authenticationService:AuthenticationService, private router:Router){
+  constructor(private authenticationService: AuthenticationService, private router: Router) {
 
   }
 
-  captch(){
+  captch() {
     let alpha = new Array(
       'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
       'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
@@ -41,7 +41,7 @@ export class LoginComponent implements OnInit {
 
     // Trim the final CAPTCHA string to remove the last space
     this.generatedCaptcha = captcha.trim();
-    
+
   }
 
   onSubmit() {
@@ -59,7 +59,7 @@ export class LoginComponent implements OnInit {
 
         if (role === 'admin') {
           this.router.navigateByUrl('/admin');
-        } else if(role === 'user'){
+        } else if (role === 'user') {
           this.router.navigateByUrl('/dashboard');
         }
       },
@@ -70,7 +70,13 @@ export class LoginComponent implements OnInit {
   }
 
 
+
   ngOnInit(): void {
+    debugger
     this.captch();
+    // setInterval(() => {
+    //   this.authenticationService.autoLogout();
+    // }, 2000);
   }
+
 }

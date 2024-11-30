@@ -20,23 +20,31 @@ p-button{
 }
 table th{
     background-color: rgb(255 219 174);
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 600;
     border-top: 1px solid gray;
     padding: 10px 20px;
     
 }
-table td tr{
+tbody tr td{
     font-weight: 300;
-    font-size: 14px;
+    font-size: 12px;
     padding: 10px 20px;
 }
 .modal-backdrop.fade{
     opacity: 0;
     z-index: -1 !important;
 }
-input[type='text'], .p-dropdown{
+input[type='text'], .p-dropdown, .p-password{
     width: 100% ;
     height: 35px;
-    border-radius: 2px;
+    border-radius: 2px !important; 
+}
+.action-btns{
+    padding: 8px 10px !important;
+}
+.refresh-button{
+    width: 30px;
+    height: 35px !important;
+    border: 0px !important
 }

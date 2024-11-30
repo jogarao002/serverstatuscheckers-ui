@@ -1,22 +1,32 @@
+<h6 class="text-info-emphasis">Server Details</h6>
 <div class="border p-3 rounded shadow-sm">
 
     <p-button label="Add" class="pull-right" icon="pi pi-plus" iconPos="left" data-bs-toggle="modal"
         data-bs-target="#exampleModal"></p-button>
 
     <br> <br> <br> <br>
-    <p-table [columns]="cols" [value]="servers">
+    <p-table [columns]="cols" [value]="servers" [paginator]="true" [rows]="10">
         <ng-template pTemplate="header" let-columns>
             <tr>
                 <th *ngFor="let col of columns">
                     {{ col.header }}
                 </th>
+                <th>Action</th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-rowData let-columns="columns">
             <tr>
-                <td *ngFor="let col of columns">
+                <!-- <td *ngFor="let col of columns">
                     {{ rowData[col.field] }}
+                </td> -->
+                <td *ngFor="let col of columns">
+                    <span *ngIf="rowData[col.field] =='In-Active';else elseIfBlock" style="color: #fff; background: #d12828; padding: 3px 0px; border-radius: 25px; width:120px; display: inline-block; text-align: center;font-weight: 600;">{{rowData[col.field]}}</span>
+                    <ng-template #elseIfBlock>
+                      <span *ngIf="rowData[col.field] =='Active';else elseBlock"
+                        style="color: #fff; background: #59ca7d; padding: 3px 0px; border-radius: 25px; width:120px; display: inline-block; text-align: center;font-weight: 500;">{{rowData[col.field]}}</span></ng-template>
+                    <ng-template #elseBlock>{{rowData[col.field]}}</ng-template>
                 </td>
+                <td><button pButton type="button" label="Delete" class="p-button-danger action-btns" icon="pi pi-trash" iconPos="left" (click)="onDelete(rowData.id)"></button></td>
             </tr>
         </ng-template>
     </p-table>
@@ -26,26 +36,26 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="exampleModalLabel">New Server</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="onClose()"></button>
                 </div>
                 <div class="modal-body">
                     <div class="col-12">
                         <div class="row">
                             <div class="col-4">
                                 <span class="p-float-label">
-                                    <input type="text" pInputText />
+                                    <input type="text" [(ngModel)]="hostName" pInputText />
                                     <label for="float-input">Host Name</label>
                                 </span>
                             </div>
                             <div class="col-4">
                                 <span class="p-float-label">
-                                    <input type="text" pInputText />
+                                    <input type="text" [(ngModel)]="serverProtocolType" pInputText />
                                     <label for="float-input">Server Protocol Type</label>
                                 </span>
                             </div>
                             <div class="col-4">
                                 <span class="p-float-label">
-                                    <input type="text" pInputText />
+                                    <input type="text" [(ngModel)]="serverIpAddress" pInputText />
                                     <label for="float-input">Server Ip Address</label>
                                 </span>
                             </div>
@@ -54,14 +64,14 @@
                             <div class="row">
                             <div class="col-4">
                                 <span class="p-float-label">
-                                    <input type="text" pInputText />
+                                    <input type="text" [(ngModel)]="serverPort"pInputText />
                                     <label for="float-input">Server Port</label>
                                 </span>
                             </div>
                             <div class="col-4">
                                 <span class="p-float-label">
-                                    <input type="text" pInputText />
-                                    <label for="float-input">Server Name</label>
+                                    <input type="text" [(ngModel)]="serviceName" pInputText />
+                                    <label for="float-input">Service Name</label>
                                 </span>
                             </div>
                             <div class="col-4">
@@ -78,8 +88,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <p-button  data-bs-dismiss="modal">Close</p-button>
-                    <p-button >Save</p-button>
+                    <p-button  data-bs-dismiss="modal" (click)="onClose()">Close</p-button>
+                    <p-button (click)="onSave()">Save</p-button>
                 </div>
             </div>
         </div>

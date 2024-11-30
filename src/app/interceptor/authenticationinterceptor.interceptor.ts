@@ -2,7 +2,7 @@ import { HttpInterceptorFn } from '@angular/common/http';
 
 export const authenticationinterceptorInterceptor: HttpInterceptorFn = (req, next) => {
   debugger
-  const myToken = localStorage.getItem('security');
+  const myToken = localStorage.getItem('authToken');
 
   // Only add Authorization header if the token exists
   if (myToken) {

@@ -1,6 +1,6 @@
-
+<h6 class="text-info-emphasis">Server Details</h6>
 <div class="border p-3 rounded shadow-sm">
-    <p-table [columns]="cols" [value]="servers">
+    <p-table [columns]="cols" [value]="servers" [paginator]="true" [rows]="10">
         <ng-template pTemplate="header" let-columns>
             <tr>
                 <th *ngFor="let col of columns">
@@ -10,8 +10,15 @@
         </ng-template>
         <ng-template pTemplate="body" let-rowData let-columns="columns">
             <tr>
-                <td *ngFor="let col of columns">
+                <!-- <td *ngFor="let col of columns">
                     {{ rowData[col.field] }}
+                </td> -->
+                <td *ngFor="let col of columns">
+                    <span *ngIf="rowData[col.field] =='In-Active';else elseIfBlock" style="color: #fff; background: #ff1515; padding: 3px 0px; border-radius: 25px; width:120px; display: inline-block;text-align: center;font-weight: 600;">{{rowData[col.field]}}</span>
+                    <ng-template #elseIfBlock>
+                      <span *ngIf="rowData[col.field] =='Active';else elseBlock"
+                        style="color: #fff; background: #02b93c; padding: 3px 0px; border-radius: 25px; width:120px; display: inline-block;text-align: center;font-weight: 500;">{{rowData[col.field]}}</span></ng-template>
+                    <ng-template #elseBlock>{{rowData[col.field]}}</ng-template>
                 </td>
             </tr>
         </ng-template>

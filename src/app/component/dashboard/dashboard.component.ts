@@ -2,7 +2,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { AuthorizationService } from '../../service/authorization.service';
 import { TableModule } from 'primeng/table';
 import { CommonModule } from '@angular/common';
-
+import { CronJob } from 'cron';
 
 @Component({
   selector: 'app-dashboard',
@@ -21,17 +21,19 @@ export class DashboardComponent implements OnInit {
   cols: any[] = [];
 
   constructor(private authorizationService: AuthorizationService) { }
+
   ngOnInit(): void {
+    this.cronJob.start();
     this.cols = [
-      { field: 'serverName', header: 'serverName' },
-      { field: 'serverIp', header: 'serverIp' },
-      { field: 'serverPort', header: 'serverPort' },
-      { field: 'serverStatus', header: 'serverStatus' }
+      { field: 'slNo', header: 'S.NO' },
+      { field: 'hostName', header: 'Host Name' },
+      { field: 'serverIpAddress', header: 'Server Ip Address' },
+      { field: 'serverPort', header: 'Server Port' },
+      { field: 'serviceName', header: 'Service Name' },
+      { field: 'serverStatusName', header: 'Status' }
     ];
 
   }
-
-
 
   getAllServersList() {
     this.authorizationService.getAllServers().subscribe(
@@ -41,7 +43,13 @@ export class DashboardComponent implements OnInit {
           this.errorMessage = response.error;
         } else {
           // Handle successful response
-          this.servers = response; // Assuming response contains the server data
+          this.servers = response.data; // Assuming response contains the server data
+          if (this.servers) {
+            let i = 1;
+            for (let server of this.servers) {
+              server.slNo = i++;
+            }
+          }
           console.log(this.servers);
         }
       },
@@ -52,5 +60,10 @@ export class DashboardComponent implements OnInit {
       }
     );
   }
+
+  cronJob: CronJob = new CronJob('*/1 * * * *', () => {
+    //console.log('Task is running every 2 minute');
+    this.getAllServersList();
+  });
 
 }
