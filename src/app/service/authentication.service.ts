@@ -5,8 +5,6 @@ import { Observable } from 'rxjs/internal/Observable';
 import { jwtDecode } from 'jwt-decode';
 import { Router } from '@angular/router';
 import { ServerDetails } from '../interface/server-details';
-Router
-
 
 @Injectable({
   providedIn: 'root'
@@ -24,8 +22,9 @@ export class AuthenticationService {
     return this.http.post("http://localhost:9010/server_details/add", serverDetails);
   }
 
-  deleteServer(recordId : any){
-    return this.http.delete("http://localhost:9010/server_details/remove", recordId);
+  deleteServer(recordId : any): Observable<any>{
+    debugger
+    return this.http.delete(`http://localhost:9010/server_details/remove/${recordId}`);
   }
 
   // Check if the user is authenticated (token exists and is valid)

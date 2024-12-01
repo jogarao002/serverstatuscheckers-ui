@@ -3,11 +3,13 @@ import { AuthorizationService } from '../../service/authorization.service';
 import { TableModule } from 'primeng/table';
 import { CommonModule } from '@angular/common';
 import { CronJob } from 'cron';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [TableModule, CommonModule],
+  imports: [TableModule, CommonModule, ToastModule],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css',
   encapsulation: ViewEncapsulation.None
@@ -20,7 +22,7 @@ export class DashboardComponent implements OnInit {
 
   cols: any[] = [];
 
-  constructor(private authorizationService: AuthorizationService) { }
+  constructor(private authorizationService: AuthorizationService, private messageService :MessageService) { }
 
   ngOnInit(): void {
     this.cronJob.start();
@@ -39,8 +41,7 @@ export class DashboardComponent implements OnInit {
     this.authorizationService.getAllServers().subscribe(
       (response) => {
         if (response.error) {
-          // Handle the error response
-          this.errorMessage = response.error;
+          this.messageService.add({summary: response.error, detail: response.statusMsg});
         } else {
           // Handle successful response
           this.servers = response.data; // Assuming response contains the server data
@@ -61,7 +62,7 @@ export class DashboardComponent implements OnInit {
     );
   }
 
-  cronJob: CronJob = new CronJob('*/1 * * * *', () => {
+  cronJob: CronJob = new CronJob('*/10 * * * *', () => {
     //console.log('Task is running every 2 minute');
     this.getAllServersList();
   });

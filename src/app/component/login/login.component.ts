@@ -8,10 +8,13 @@ import { CommonModule } from '@angular/common';
 import { AuthenticationService } from '../../service/authentication.service';
 import { Login } from '../../interface/login';
 import { Router } from '@angular/router';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
+
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CardModule, InputTextModule, FormsModule, PasswordModule, ButtonModule, CommonModule],
+  imports: [CardModule, InputTextModule, FormsModule, PasswordModule, ButtonModule, CommonModule, ToastModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
   encapsulation: ViewEncapsulation.None
@@ -22,7 +25,7 @@ export class LoginComponent implements OnInit {
   generatedCaptcha: any;
   userCaptcha: any;
 
-  constructor(private authenticationService: AuthenticationService, private router: Router) {
+  constructor(private authenticationService: AuthenticationService, private router: Router, private messageService: MessageService) {
 
   }
 
@@ -54,6 +57,7 @@ export class LoginComponent implements OnInit {
       (response: any) => {
         debugger
         console.log('Login successful', response);
+        this.messageService.add({summary: response.status, detail: response.statusMsg});
         this.authenticationService.storeUserData(response);  // Store token and role
         const role = this.authenticationService.getUserRole();
 
@@ -65,6 +69,7 @@ export class LoginComponent implements OnInit {
       },
       (error: any) => {
         console.error('Login failed', error);
+        this.messageService.add({summary: 'error', detail: 'ERR_CONNECTION_REFUSED'});
       }
     );
   }

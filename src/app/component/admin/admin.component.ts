@@ -9,12 +9,14 @@ import { FormsModule } from '@angular/forms';
 import { ServerDetails } from '../../interface/server-details';
 import { AuthenticationService } from '../../service/authentication.service';
 import { CronJob } from 'cron';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api'; 
 
 
 @Component({
   selector: 'app-admin',
   standalone: true,
-  imports: [TableModule, CommonModule, ButtonModule, InputTextModule, DropdownModule, FormsModule],
+  imports: [TableModule, CommonModule, ButtonModule, InputTextModule, DropdownModule, FormsModule, ToastModule],
   templateUrl: './admin.component.html',
   styleUrl: './admin.component.css'
 })
@@ -30,11 +32,12 @@ export class AdminComponent implements OnInit {
   serverIpAddress: any;
   serverPort: any;
   serviceName: any;
-  serverStatus: any = 'Active';
+  serverStatus: any = 'true';
 
-  constructor(private authorizationService: AuthorizationService, private authenticationService: AuthenticationService) { }
+  constructor(private authorizationService: AuthorizationService, private authenticationService: AuthenticationService, private messageService: MessageService) { }
 
   ngOnInit(): void {
+    this.getAllServersList();
     this.cronJob.start();
     this.cols = [
       { field: 'slNo', header: 'S.NO' },
@@ -51,11 +54,9 @@ export class AdminComponent implements OnInit {
     this.authorizationService.getAllServers().subscribe(
       (response) => {
         if (response.error) {
-          // Handle the error response
-          this.errorMessage = response.error;
+          this.messageService.add({summary: response.error, detail: response.statusMsg});
         } else {
-          // Handle successful response
-          this.servers = response.data; // Assuming response contains the server data
+          this.servers = response.data;
           if (this.servers) {
             let i = 1;
             for (let server of this.servers) {
@@ -73,7 +74,7 @@ export class AdminComponent implements OnInit {
     );
   }
 
-  cronJob: CronJob = new CronJob('*/1 * * * *', () => {
+  cronJob: CronJob = new CronJob('*/10 * * * *', () => {
     //console.log('Task is running every 2 minute');
     this.getAllServersList();
   });
@@ -91,9 +92,11 @@ export class AdminComponent implements OnInit {
     this.authenticationService.saveServerDetails(serverDetails).subscribe(
       (response: any) => {
         console.log(response);
+        this.messageService.add({summary: response.status, detail: response.statusMsg});
       },
       (error: any) => {
         console.log(error);
+        this.messageService.add({summary: error.status, detail: error.statusMsg});
       }
     );
 
@@ -108,13 +111,23 @@ export class AdminComponent implements OnInit {
   }
 
   onDelete(recordId: string) {
+    debugger
     console.log('Deleting record with ID:', recordId);
     this.authenticationService.deleteServer(recordId).subscribe(
       (response: any) => {
         console.log("deleted successfully");
+        this.messageService.add({summary: response.status, detail: response.statusMsg});
+        this.servers = response.data;
+        if (this.servers) {
+          let i = 1;
+          for (let server of this.servers) {
+            server.slNo = i++;
+          }
+        }
       },
       (error: any) => {
         console.log("some error");
+        this.messageService.add({summary: error.status, detail: error.statusMsg});
       }
     );
   }
