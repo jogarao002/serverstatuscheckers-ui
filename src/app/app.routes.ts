@@ -4,6 +4,7 @@ import { DashboardComponent } from './component/dashboard/dashboard.component';
 import { HeaderComponent } from './component/header/header.component';
 import { AdminComponent } from './component/admin/admin.component';
 import { authGuard } from './guard/auth.guard';
+import { PieChartComponent } from './component/pie-chart/pie-chart.component';
 
 export const routes: Routes = [
     {
@@ -17,14 +18,17 @@ export const routes: Routes = [
         children: [
           {
             path: 'dashboard', component: DashboardComponent,
-            canActivate: [authGuard],  // Protect this route
+            canActivate: [authGuard], 
             data: { role: 'user' }     // Only allow 'user' role
           },
           {
             path: 'admin', component: AdminComponent,
-            canActivate: [authGuard],  // Protect this route
+            canActivate: [authGuard],  
             data: { role: 'admin' }    // Only allow 'admin' role
           }
         ]
+      },
+      {
+        path:'analysis', component:PieChartComponent
       }
 ];

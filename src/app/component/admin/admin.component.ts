@@ -11,7 +11,7 @@ import { AuthenticationService } from '../../service/authentication.service';
 import { CronJob } from 'cron';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api'; 
-
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-admin',
@@ -34,7 +34,7 @@ export class AdminComponent implements OnInit {
   serviceName: any;
   serverStatus: any = 'true';
 
-  constructor(private authorizationService: AuthorizationService, private authenticationService: AuthenticationService, private messageService: MessageService) { }
+  constructor(private authorizationService: AuthorizationService, private authenticationService: AuthenticationService, private messageService: MessageService, private router: Router) { }
 
   ngOnInit(): void {
     this.getAllServersList();
@@ -132,5 +132,8 @@ export class AdminComponent implements OnInit {
     );
   }
 
+  openPieChart(){
+    this.router.navigateByUrl('/analysis')
+  }
 
 }
