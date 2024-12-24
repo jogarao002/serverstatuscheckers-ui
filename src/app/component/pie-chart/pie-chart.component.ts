@@ -84,7 +84,7 @@ export class PieChartComponent implements AfterViewInit {
               labels: labels,
               datasets: [
                 {
-                  backgroundColor: color,
+                  backgroundColor: ['#081F5C','#376092','#B4560F','#70AD47','#7F0000','#558ED5','#999900','#FF7300'],
                   data: data
                 }
               ]

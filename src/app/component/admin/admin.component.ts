@@ -5,18 +5,26 @@ import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { DropdownModule } from 'primeng/dropdown';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ServerDetails } from '../../interface/server-details';
 import { AuthenticationService } from '../../service/authentication.service';
 import { CronJob } from 'cron';
 import { ToastModule } from 'primeng/toast';
-import { MessageService } from 'primeng/api'; 
+import { MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
+import { DialogModule } from 'primeng/dialog';
+import { CardModule } from 'primeng/card';
+import { PasswordModule } from 'primeng/password';
+
 
 @Component({
   selector: 'app-admin',
   standalone: true,
-  imports: [TableModule, CommonModule, ButtonModule, InputTextModule, DropdownModule, FormsModule, ToastModule],
+  imports: [TableModule, CommonModule,
+    ButtonModule, InputTextModule,
+    DropdownModule,
+    FormsModule, ToastModule, CardModule,
+    ReactiveFormsModule, DialogModule, PasswordModule],
   templateUrl: './admin.component.html',
   styleUrl: './admin.component.css'
 })
@@ -27,6 +35,11 @@ export class AdminComponent implements OnInit {
 
   cols: any[] = [];
 
+  roles: any[] = [];
+
+  selectedRole: any = { name: '', value: '' };
+
+  visible: boolean = false;
   hostName: any;
   serverProtocolType: any;
   serverIpAddress: any;
@@ -34,7 +47,19 @@ export class AdminComponent implements OnInit {
   serviceName: any;
   serverStatus: any = 'true';
 
-  constructor(private authorizationService: AuthorizationService, private authenticationService: AuthenticationService, private messageService: MessageService, private router: Router) { }
+  userFirstName: any;
+  userLastName: any;
+  email: any;
+  password: any;
+  userRole: any;
+
+
+  constructor(private authorizationService: AuthorizationService, private authenticationService: AuthenticationService, private messageService: MessageService, private router: Router) {
+    this.roles = [
+      { name: 'Admin', value: 'admin' },
+      { name: 'User', value: 'user' }
+    ];
+  }
 
   ngOnInit(): void {
     this.getAllServersList();
@@ -54,7 +79,7 @@ export class AdminComponent implements OnInit {
     this.authorizationService.getAllServers().subscribe(
       (response) => {
         if (response.error) {
-          this.messageService.add({summary: response.error, detail: response.statusMsg});
+          this.messageService.add({ summary: response.error, detail: response.statusMsg });
         } else {
           this.servers = response.data;
           if (this.servers) {
@@ -92,11 +117,11 @@ export class AdminComponent implements OnInit {
     this.authenticationService.saveServerDetails(serverDetails).subscribe(
       (response: any) => {
         console.log(response);
-        this.messageService.add({summary: response.status, detail: response.statusMsg});
+        this.messageService.add({ summary: response.status, detail: response.statusMsg });
       },
       (error: any) => {
         console.log(error);
-        this.messageService.add({summary: error.status, detail: error.statusMsg});
+        this.messageService.add({ summary: error.status, detail: error.statusMsg });
       }
     );
 
@@ -116,7 +141,7 @@ export class AdminComponent implements OnInit {
     this.authenticationService.deleteServer(recordId).subscribe(
       (response: any) => {
         console.log("deleted successfully");
-        this.messageService.add({summary: response.status, detail: response.statusMsg});
+        this.messageService.add({ summary: response.status, detail: response.statusMsg });
         this.servers = response.data;
         if (this.servers) {
           let i = 1;
@@ -127,13 +152,41 @@ export class AdminComponent implements OnInit {
       },
       (error: any) => {
         console.log("some error");
-        this.messageService.add({summary: error.status, detail: error.statusMsg});
+        this.messageService.add({ summary: error.status, detail: error.statusMsg });
       }
     );
   }
 
-  openPieChart(){
+  openPieChart() {
     this.router.navigateByUrl('/analysis')
+  }
+
+  registerUser() {
+    this.visible = true;
+  }
+
+  onRegister() {
+    const user = {
+      userFirstName: this.userFirstName,
+      userLastName: this.userLastName,
+      email: this.email,
+      password: this.password,
+      userRole: this.selectedRole.value
+    };
+
+    this.authorizationService.registerUser(user).subscribe({
+      next: (response) => {
+        this.messageService.add({ summary: response.status, detail: response.statusMsg });
+        this.userFirstName = null;
+        this.userLastName = null;
+        this.email = null;
+        this.password = null;
+        this.userRole = null;
+      },
+      error: (error) => {
+        this.messageService.add({ summary: error.status, detail: error.statusMsg });
+      }
+    });
   }
 
 }

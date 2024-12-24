@@ -15,4 +15,8 @@ export class AuthorizationService implements OnInit {
   getAllServers(): Observable<any> {
     return this.http.get("http://localhost:9010/server_details/get_all");
   }
+
+  registerUser(user:any): Observable<any> {
+    return this.http.post("http://localhost:9010/server_details/register", user);
+  }
 }

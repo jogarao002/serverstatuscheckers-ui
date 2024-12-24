@@ -17,7 +17,7 @@
         </div>
         <div class="col-12 h50-class">
             <span class="p-float-label user-password">
-                <p-password id="password" inputId="password" [toggleMask]="true" [(ngModel)]="loginPassword" required
+                <p-password id="password" inputId="password" [feedback]="false" [toggleMask]="true" [(ngModel)]="loginPassword" required
                     #passwordInput="ngModel"
                     [ngClass]="{'invalid': passwordInput.invalid && passwordInput.touched}"></p-password>
                 <label for="password">Password</label>

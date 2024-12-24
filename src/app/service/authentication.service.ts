@@ -14,7 +14,6 @@ export class AuthenticationService {
   constructor(private http: HttpClient, private router: Router) { }
 
   loginUser(login: Login): Observable<any> {
-    debugger
     return this.http.post("http://localhost:9010/server_details/login", login);
   }
 
@@ -35,7 +34,6 @@ export class AuthenticationService {
 
   storeUserData(response: any): void {
     // Store the token and role
-    debugger
     localStorage.setItem('authToken', response.data[0].token);
     localStorage.setItem('role', response.data[0].userRole);
     localStorage.setItem('userName', response.data[0].userName);
@@ -43,12 +41,10 @@ export class AuthenticationService {
   }
 
   getUserRole(): string | null {
-    debugger
     return localStorage.getItem('role');
   }
 
   getAuthToken(): string | null {
-    debugger
     return localStorage.getItem('authToken');
   }
 
@@ -57,7 +53,6 @@ export class AuthenticationService {
   }
 
   getExpirationTime(): string | null {
-    debugger
     const expToken = localStorage.getItem('expirationToken');
 
     if (!expToken) {

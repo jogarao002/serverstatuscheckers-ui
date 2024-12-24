@@ -25,6 +25,7 @@ export class DashboardComponent implements OnInit {
   constructor(private authorizationService: AuthorizationService, private messageService :MessageService) { }
 
   ngOnInit(): void {
+    this.getAllServersList();
     this.cronJob.start();
     this.cols = [
       { field: 'slNo', header: 'S.NO' },

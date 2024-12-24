@@ -3,7 +3,37 @@
     <p-toast position="top-center"></p-toast>
     <p-button label="Add" class="pull-right" icon="pi pi-plus" iconPos="left" data-bs-toggle="modal"
         data-bs-target="#exampleModal"></p-button>
-    <p-button label="Analysis" (click)="openPieChart()" class="pull-right" [raised]="true" severity="info" />
+    <p-button label="Register" (click)="registerUser()" icon="pi pi-user-plus" class="pull-right" [raised]="true"
+        severity="info" />
+    <p-dialog header="Register User" [modal]="true" [(visible)]="visible" [style]="{ width: '30rem'}">
+        <div class="mt-0">
+            <label for="firstName" class="font-semibold">First Name</label>
+            <input type="text" pInputText [(ngModel)]="userFirstName" />
+        </div>
+        <div class="mt-1">
+            <label for="lastName" class="font-semibold">Last Name</label>
+            <input type="text" pInputText [(ngModel)]="userLastName" />
+        </div>
+        <div class="mt-2">
+            <label for="email" class="font-semibold">Email</label>
+            <input type="text" pInputText [(ngModel)]="email" />
+        </div>
+        <div class="mt-3">
+            <label for="password" class="font-semibold">Password</label>
+            <p-password [(ngModel)]="password" [feedback]="false" [toggleMask]="true"
+                inputStyleClass="w-full"></p-password>
+        </div>
+        <div class="mt-4">
+            <label for="role" class="font-semibold">Role</label>
+            <p-dropdown [options]="roles" [(ngModel)]="selectedRole" optionLabel="name"
+                [appendTo]="'body'"></p-dropdown>
+        </div>
+        <div class="mt-5 ">
+            <button pButton type="button" label="Register" (click)="onRegister()" class="w-full h-0"></button>
+        </div>
+    </p-dialog>
+    <p-button label="Analysis" (click)="openPieChart()" icon="pi pi-chart-bar" class="pull-right" [raised]="true"
+        severity="info" />
 
     <br> <br> <br> <br>
     <p-table [columns]="cols" [value]="servers" [paginator]="true" [rows]="10">
