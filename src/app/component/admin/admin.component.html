@@ -1,132 +1,181 @@
-<h6 class="text-info-emphasis">Server Details</h6>
-<div class="border p-3 rounded shadow-sm">
+<div class="col-12">
     <p-toast position="top-center"></p-toast>
-    <p-button label="Add" class="pull-right" icon="pi pi-plus" iconPos="left" data-bs-toggle="modal"
-        data-bs-target="#exampleModal"></p-button>
-    <p-button label="Register" (click)="registerUser()" icon="pi pi-user-plus" class="pull-right" [raised]="true"
-        severity="info" />
-    <p-dialog header="Register User" [modal]="true" [(visible)]="visible" [style]="{ width: '30rem'}">
-        <div class="mt-0">
-            <label for="firstName" class="font-semibold">First Name</label>
-            <input type="text" pInputText [(ngModel)]="userFirstName" />
-        </div>
-        <div class="mt-1">
-            <label for="lastName" class="font-semibold">Last Name</label>
-            <input type="text" pInputText [(ngModel)]="userLastName" />
-        </div>
-        <div class="mt-2">
-            <label for="email" class="font-semibold">Email</label>
-            <input type="text" pInputText [(ngModel)]="email" />
-        </div>
-        <div class="mt-3">
-            <label for="password" class="font-semibold">Password</label>
-            <p-password [(ngModel)]="password" [feedback]="false" [toggleMask]="true"
-                inputStyleClass="w-full"></p-password>
-        </div>
-        <div class="mt-4">
-            <label for="role" class="font-semibold">Role</label>
-            <p-dropdown [options]="roles" [(ngModel)]="selectedRole" optionLabel="name"
-                [appendTo]="'body'"></p-dropdown>
-        </div>
-        <div class="mt-5 ">
-            <button pButton type="button" label="Register" (click)="onRegister()" class="w-full h-0"></button>
-        </div>
-    </p-dialog>
-    <p-button label="Analysis" (click)="openPieChart()" icon="pi pi-chart-bar" class="pull-right" [raised]="true"
-        severity="info" />
+    <h6 class="text-info-emphasis">Server Details</h6>
+    <div class="col-12 border p-3 rounded shadow-sm">
+        <div class="col-12 p-0">
+            <div class="d-flex pull-right mb-2">
+                <p-button label="Analysis" (click)="openPieChart()" icon="pi pi-chart-bar" class="" [raised]="true"
+                    severity="info"></p-button>
+                <p-button label="Register" (click)="registerUser()" icon="pi pi-user-plus" class="" [raised]="true"
+                    severity="info"></p-button>
+                <!-- <p-button label="Add" class="" icon="pi pi-plus" iconPos="left" data-bs-toggle="modal"
+                    data-bs-target="#exampleModal"></p-button> -->
+                <p-button label="Add" class="" icon="pi pi-plus" (click)="addUser()" iconPos="left"
+                    data-bs-toggle="modal" data-bs-target="#exampleModal"></p-button>
 
-    <br> <br> <br> <br>
-    <p-table [columns]="cols" [value]="servers" [paginator]="true" [rows]="10">
-        <ng-template pTemplate="header" let-columns>
-            <tr>
-                <th *ngFor="let col of columns">
-                    {{ col.header }}
-                </th>
-                <th>Action</th>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-rowData let-columns="columns">
-            <tr>
-                <!-- <td *ngFor="let col of columns">
-                    {{ rowData[col.field] }}
-                </td> -->
-                <td *ngFor="let col of columns">
-                    <span *ngIf="rowData[col.field] =='In-Active';else elseIfBlock"
-                        style="color: #fff; background: #d12828; padding: 3px 0px; border-radius: 25px; width:120px; display: inline-block; text-align: center;font-weight: 600;">{{rowData[col.field]}}</span>
-                    <ng-template #elseIfBlock>
-                        <span *ngIf="rowData[col.field] =='Active';else elseBlock"
-                            style="color: #fff; background: #59ca7d; padding: 3px 0px; border-radius: 25px; width:120px; display: inline-block; text-align: center;font-weight: 500;">{{rowData[col.field]}}</span></ng-template>
-                    <ng-template #elseBlock>{{rowData[col.field]}}</ng-template>
-                </td>
-                <td><button pButton type="button" label="Delete" class="p-button-danger action-btns" icon="pi pi-trash"
-                        iconPos="left" (click)="onDelete(rowData.id)"></button></td>
-            </tr>
-        </ng-template>
-    </p-table>
+            </div>
+        </div>
 
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-xl">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">New Server</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-                        (click)="onClose()"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="col-12">
-                        <div class="row">
-                            <div class="col-4">
-                                <span class="p-float-label">
-                                    <input type="text" [(ngModel)]="hostName" pInputText />
-                                    <label for="float-input">Host Name</label>
-                                </span>
-                            </div>
-                            <div class="col-4">
-                                <span class="p-float-label">
-                                    <input type="text" [(ngModel)]="serverProtocolType" pInputText />
-                                    <label for="float-input">Server Protocol Type</label>
-                                </span>
-                            </div>
-                            <div class="col-4">
-                                <span class="p-float-label">
-                                    <input type="text" [(ngModel)]="serverIpAddress" pInputText />
-                                    <label for="float-input">Server Ip Address</label>
-                                </span>
-                            </div>
+        <div class="col-12 mt-3">
+            <p-table [columns]="cols" [value]="servers" [paginator]="true" [rows]="10">
+                <ng-template pTemplate="header" let-columns>
+                    <tr>
+                        <th *ngFor="let col of columns">
+                            {{ col.header }}
+                        </th>
+                        <th>Action</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-columns="columns">
+                    <tr>
+                        <td *ngFor="let col of columns">
+                            <span *ngIf="rowData[col.field] =='In-Active';else elseIfBlock"
+                                style="color: #fff; background: #d12828; padding: 3px 0px; border-radius: 25px; width:120px; display: inline-block; text-align: center;font-weight: 600;">{{rowData[col.field]}}</span>
+                            <ng-template #elseIfBlock>
+                                <span *ngIf="rowData[col.field] =='Active';else elseBlock"
+                                    style="color: #fff; background: #59ca7d; padding: 3px 0px; border-radius: 25px; width:120px; display: inline-block; text-align: center;font-weight: 500;">{{rowData[col.field]}}</span></ng-template>
+                            <ng-template #elseBlock>{{rowData[col.field]}}</ng-template>
+                        </td>
+                        <td><button pButton type="button" label="Delete" class="p-button-danger action-btns"
+                                icon="pi pi-trash" iconPos="left" (click)="onDelete(rowData.id)"></button></td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+        <!-- Registered User -->
+        <p-dialog header="Register User" [modal]="true" [(visible)]="visible" [style]="{width: '30rem'}">
+            <div class="col-12">
+                <div class="row">
+                    <div class="col-12 mt-3">
+                        <span class="p-float-label">
+                            <input type="text" [(ngModel)]="userFirstName" pInputText required #firstName="ngModel" />
+                            <label for="float-input">First Name</label>
+                        </span>
+                        <div *ngIf="firstName.invalid && firstName.touched" class="error-message">
+                            <small *ngIf="firstName.errors?.['required']">First name is required.</small>
                         </div>
-                        <br>
-                        <div class="row">
-                            <div class="col-4">
-                                <span class="p-float-label">
-                                    <input type="text" [(ngModel)]="serverPort" pInputText />
-                                    <label for="float-input">Server Port</label>
-                                </span>
-                            </div>
-                            <div class="col-4">
-                                <span class="p-float-label">
-                                    <input type="text" [(ngModel)]="serviceName" pInputText />
-                                    <label for="float-input">Service Name</label>
-                                </span>
-                            </div>
-                            <div class="col-4">
-                                <span class="p-float-label">
-                                    <input type="text" pInputText value="Active" readonly />
-                                    <label for="float-input">Server Status</label>
-                                </span>
-                                <!-- <span class="p-float-label">
-                                    <p-dropdown inputId="multiselect" [options]="status"  optionLabel="name"></p-dropdown>
-                                    <label for="multiselect">Select Status</label>
-                                </span> -->
-                            </div>
+                    </div>
+                    <div class="col-12 mt-4">
+                        <span class="p-float-label">
+                            <input type="text" [(ngModel)]="userLastName" pInputText required #lastName="ngModel" />
+                            <label for="float-input">Last Name</label>
+                        </span>
+                        <div *ngIf="lastName.invalid && lastName.touched" class="error-message">
+                            <small *ngIf="lastName.errors?.['required']">Last name is required.</small>
+                        </div>
+                    </div>
+                    <div class="col-12 mt-4">
+                        <span class="p-float-label">
+                            <input type="text" [(ngModel)]="email" pInputText required email #emailInput="ngModel" />
+                            <label for="float-input">Email</label>
+                        </span>
+                        <div *ngIf="emailInput.invalid && emailInput.touched" class="error-message">
+                            <small *ngIf="emailInput.errors?.['required']">Email is required.</small>
+                            <small *ngIf="emailInput.errors?.['email']">Please enter a valid email address.</small>
+                        </div>
+                    </div>
+                    <div class="col-12 mt-4">
+                        <span class="p-float-label">
+                            <p-password [(ngModel)]="password" [feedback]="false" [toggleMask]="true"
+                                inputStyleClass="w-full" required #passwordInput="ngModel"
+                                [ngClass]="{'invalid': passwordInput.invalid && passwordInput.touched}"></p-password>
+                            <label for="float-input">Password</label>
+                        </span>
+                        <div *ngIf="passwordInput.invalid && passwordInput.touched" class="error-message">
+                            <small *ngIf="passwordInput.errors?.['required']">Password is required.</small>
+                        </div>
+
+                    </div>
+                    <div class="col-12 mt-4 dp-down">
+                        <span class="p-float-label">
+                            <p-dropdown inputId="dropdown" [autoDisplayFirst]="false" [options]="roles"
+                                [(ngModel)]="selectedRole" optionLabel="name" [appendTo]="'body'" required
+                                #dropDownInput="ngModel"></p-dropdown>
+                            <label for="dropdown">Role</label>
+                        </span>
+                        <div *ngIf="dropDownInput.invalid && dropDownInput.touched" class="error-message">
+                            <small *ngIf="dropDownInput.errors?.['required']">Please select role.</small>
+                        </div>
+                    </div>
+                    <div class="col-12 mt-4 text-center">
+                        <p-button type="button" label="Register" (click)="onRegister()" class="reg-btn"
+                            [disabled]="!firstName.valid || !lastName.valid || !emailInput.valid || !passwordInput.valid || !dropDownInput.valid"></p-button>
+                    </div>
+                </div>
+            </div>
+        </p-dialog>
+        <!-- New Servers -->
+        <p-dialog header="New Server" [modal]="true" [(visible)]="visibleUser">
+            <div class="col-12 mt-2">
+                <div class="row">
+                    <div class="col-4">
+                        <span class="p-float-label">
+                            <input type="text" [(ngModel)]="hostName" pInputText required #hostInput="ngModel" />
+                            <label for="float-input">Host Name</label>
+                        </span>
+                        <div *ngIf="hostInput.invalid && hostInput.touched" class="error-message">
+                            <small *ngIf="hostInput.errors?.['required']">Host name is required.</small>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <span class="p-float-label">
+                            <input type="text" [(ngModel)]="serverProtocolType" pInputText required
+                                #serverProtocolInput="ngModel" />
+                            <label for="float-input">Server Protocol Type</label>
+                        </span>
+                        <div *ngIf="serverProtocolInput.invalid && serverProtocolInput.touched" class="error-message">
+                            <small *ngIf="serverProtocolInput.errors?.['required']">Server protocol type is
+                                required.</small>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <span class="p-float-label">
+                            <input type="text" [(ngModel)]="serverIpAddress" pInputText required
+                                #serverIpInput="ngModel" />
+                            <label for="float-input">Server Ip Address</label>
+                        </span>
+                        <div *ngIf="serverIpInput.invalid && serverIpInput.touched" class="error-message">
+                            <small *ngIf="serverIpInput.errors?.['required']">Server ip address is required.</small>
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <p-button data-bs-dismiss="modal" (click)="onClose()">Close</p-button>
-                    <p-button (click)="onSave()">Save</p-button>
+                <br>
+                <div class="row">
+                    <div class="col-4">
+                        <span class="p-float-label">
+                            <input type="text" [(ngModel)]="serverPort" pInputText required
+                                #serverPortInput="ngModel" />
+                            <label for="float-input">Server Port</label>
+                        </span>
+                        <div *ngIf="serverPortInput.invalid && serverPortInput.touched" class="error-message">
+                            <small *ngIf="serverPortInput.errors?.['required']">Server port is required.</small>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <span class="p-float-label">
+                            <input type="text" [(ngModel)]="serviceName" pInputText required
+                                #serverNameInput="ngModel" />
+                            <label for="float-input">Service Name</label>
+                        </span>
+                        <div *ngIf="serverNameInput.invalid && serverNameInput.touched" class="error-message">
+                            <small *ngIf="serverNameInput.errors?.['required']">Server name is required.</small>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <span class="p-float-label">
+                            <input type="text" pInputText value="Active" readonly />
+                            <label for="float-input">Server Status</label>
+                        </span>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
+            <div class="col-12 pull-right">
+                <p-button class="pull-right" data-bs-dismiss="modal" (click)="onClose()">Close</p-button>
+                <p-button class="pull-right" (click)="onSave()" [disabled]="!hostInput.valid || !serverProtocolInput.valid || 
+                !serverIpInput.valid || !serverPortInput.valid || !serverNameInput.valid">Save</p-button>
+            </div>
 
+        </p-dialog>
+
+    </div>
 </div>

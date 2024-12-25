@@ -37,7 +37,7 @@ ul {
 
 .time,
 .date {
-    width: 10rem;
+    width: 8rem;
 }
 
 
@@ -55,4 +55,14 @@ ul {
    margin-top: -0.5em;
   }
 
-  .profile-dropdown .form-select{  border: 0px; background: none; outline: none;cursor: pointer; margin-top: 4px;}
+  .profile-dropdown .form-select{  border: 0px; background: none; outline: none;cursor: pointer; margin-top: 4px; box-shadow: none;}
+  .profile-dropdown select{
+    border: none;
+    background: none;
+    margin-top: 7px;
+    padding: 5px;
+    box-shadow: none !important;
+  }
+  .profile-dropdown select:focus-visible {
+    outline: none !important;
+  }

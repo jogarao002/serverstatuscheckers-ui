@@ -22,7 +22,7 @@ export class DashboardComponent implements OnInit {
 
   cols: any[] = [];
 
-  constructor(private authorizationService: AuthorizationService, private messageService :MessageService) { }
+  constructor(private authorizationService: AuthorizationService, private messageService: MessageService) { }
 
   ngOnInit(): void {
     this.getAllServersList();
@@ -39,10 +39,10 @@ export class DashboardComponent implements OnInit {
   }
 
   getAllServersList() {
-    this.authorizationService.getAllServers().subscribe(
-      (response) => {
+    this.authorizationService.getAllServers().subscribe({
+      next: (response) => {
         if (response.error) {
-          this.messageService.add({summary: response.error, detail: response.statusMsg});
+          this.messageService.add({ severity: 'error', summary: response.error, detail: response.statusMsg });
         } else {
           // Handle successful response
           this.servers = response.data; // Assuming response contains the server data
@@ -55,12 +55,11 @@ export class DashboardComponent implements OnInit {
           console.log(this.servers);
         }
       },
-      (error) => {
+      error: (error) => {
         // Handle any unexpected errors (this shouldn't be triggered if `catchError` is in the service)
-        this.errorMessage = 'An unexpected error occurred.';
-        console.error('Error loading servers:', error);
+        this.messageService.add({ severity: 'warn', summary: 'Warn', detail: 'An unexpected error occurred.' });
       }
-    );
+    });
   }
 
   cronJob: CronJob = new CronJob('*/10 * * * *', () => {

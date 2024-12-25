@@ -1,6 +1,6 @@
-<div class="p-6">
+<div class="col-12">
     <p-toast position="top-center"></p-toast>
-    <div class="border border-info shadow-lg p-5 mb-5 bg-body-tertiary rounded">
+    <div class="col-12 border border-info shadow-lg p-5 mb-5 bg-body-tertiary rounded login-card">
         <h3 class="text-center"> LOGIN </h3>
         <div class="col-12 h50-class">
             <div class="username">
@@ -15,10 +15,10 @@
                 </div>
             </div>
         </div>
-        <div class="col-12 h50-class">
-            <span class="p-float-label user-password">
-                <p-password id="password" inputId="password" [feedback]="false" [toggleMask]="true" [(ngModel)]="loginPassword" required
-                    #passwordInput="ngModel"
+        <div class="col-12 h50-class mt-10px">
+            <span class="p-float-label">
+                <p-password id="password" inputId="password" [feedback]="false" [toggleMask]="true"
+                    [(ngModel)]="loginPassword" required #passwordInput="ngModel"
                     [ngClass]="{'invalid': passwordInput.invalid && passwordInput.touched}"></p-password>
                 <label for="password">Password</label>
             </span>
@@ -26,25 +26,18 @@
                 <small *ngIf="passwordInput.errors?.['required']">Password is required.</small>
             </div>
         </div>
-        <br> <br>
-        
-        <div class="col-6 h50-class">
+
+        <div class="col-12 h50-class mt-10px">
             <div class="input-group">
-            <input type="text" pInputText class="form-control captcha-value" [(ngModel)]="generatedCaptcha" disabled>
-
-            <button class="refresh-button " (click)="captch()"  type="button"> 
-                <svg xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
-                    <path
-                        d="M463.5 224l8.5 0c13.3 0 24-10.7 24-24l0-128c0-9.7-5.8-18.5-14.8-22.2s-19.3-1.7-26.2 5.2L413.4 96.6c-87.6-86.5-228.7-86.2-315.8 1c-87.5 87.5-87.5 229.3 0 316.8s229.3 87.5 316.8 0c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0c-62.5 62.5-163.8 62.5-226.3 0s-62.5-163.8 0-226.3c62.2-62.2 162.7-62.5 225.3-1L327 183c-6.9 6.9-8.9 17.2-5.2 26.2s12.5 14.8 22.2 14.8l119.5 0z" />
-                </svg>
-            </button> 
-        </div>
+                <canvas class="canvasCustomClass" id='textCanvas'></canvas>&nbsp;
+                <span class="pt-1"><a (click)="captch()" class="size-20 pointer text-dark" value="Refresh"><i
+                            class="fa fa-refresh"></i> </a></span>
+            </div>
         </div>
 
-        
-       
-        <div class="col-12 h50-class">
+
+
+        <div class="col-12 h50-class mt-10px">
             <span class="p-float-label">
                 <input id="float-input" type="text" pInputText [(ngModel)]="userCaptcha" required
                     #captchaInput="ngModel" [ngClass]="{'invalid': captchaInput.invalid && captchaInput.touched}">
@@ -58,7 +51,7 @@
             </div>
         </div>
         <div class="col-12 text-center">
-            <p-button label="Submit" class="login-btn" (click)="onSubmit()"
+            <p-button label="Submit" class="login-btn" pButton (click)="onSubmit()"
                 [disabled]="!emailInput.valid || !passwordInput.valid || userCaptcha !== generatedCaptcha"></p-button>
         </div>
     </div>

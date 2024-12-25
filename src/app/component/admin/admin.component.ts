@@ -22,9 +22,10 @@ import { PasswordModule } from 'primeng/password';
   standalone: true,
   imports: [TableModule, CommonModule,
     ButtonModule, InputTextModule,
-    DropdownModule,
-    FormsModule, ToastModule, CardModule,
-    ReactiveFormsModule, DialogModule, PasswordModule],
+    DropdownModule, FormsModule,
+    ToastModule, CardModule,
+    ReactiveFormsModule, DialogModule,
+    PasswordModule],
   templateUrl: './admin.component.html',
   styleUrl: './admin.component.css'
 })
@@ -37,9 +38,10 @@ export class AdminComponent implements OnInit {
 
   roles: any[] = [];
 
-  selectedRole: any = { name: '', value: '' };
+  selectedRole: any;
 
   visible: boolean = false;
+  visibleUser: boolean = false;
   hostName: any;
   serverProtocolType: any;
   serverIpAddress: any;
@@ -76,10 +78,10 @@ export class AdminComponent implements OnInit {
   }
 
   getAllServersList() {
-    this.authorizationService.getAllServers().subscribe(
-      (response) => {
+    this.authorizationService.getAllServers().subscribe({
+      next: (response: any) => {
         if (response.error) {
-          this.messageService.add({ summary: response.error, detail: response.statusMsg });
+          this.messageService.add({ severity: 'error', summary: response.error, detail: response.statusMsg });
         } else {
           this.servers = response.data;
           if (this.servers) {
@@ -88,15 +90,16 @@ export class AdminComponent implements OnInit {
               server.slNo = i++;
             }
           }
-          console.log(this.servers);
         }
       },
-      (error) => {
+      error: (error) => {
         // Handle any unexpected errors (this shouldn't be triggered if `catchError` is in the service)
-        this.errorMessage = 'An unexpected error occurred.';
+        this.messageService.add({ severity: 'warn', summary: 'Warn', detail: 'An unexpected error occurred.' });
         console.error('Error loading servers:', error);
       }
-    );
+    });
+
+
   }
 
   cronJob: CronJob = new CronJob('*/10 * * * *', () => {
@@ -113,48 +116,46 @@ export class AdminComponent implements OnInit {
       serverStatus: this.serverStatus,
       serviceName: this.serviceName
     };
-    console.log(serverDetails);
-    this.authenticationService.saveServerDetails(serverDetails).subscribe(
-      (response: any) => {
-        console.log(response);
-        this.messageService.add({ summary: response.status, detail: response.statusMsg });
-      },
-      (error: any) => {
-        console.log(error);
-        this.messageService.add({ summary: error.status, detail: error.statusMsg });
-      }
-    );
+    this.authenticationService.saveServerDetails(serverDetails).subscribe({
+      next: (response: any) => {
+        if (response.status == 'Request Status Success ') {
+          this.messageService.add({ severity: 'success', summary: response.status, detail: response.statusMsg });
+        } else {
+          this.messageService.add({ severity: 'error', summary: response.status, detail: response.statusMsg });
+        }
 
+      },
+      error: (error) => {
+        this.messageService.add({ severity: 'warn', summary: error.status, detail: error.statusMsg });
+      }
+    });
   }
 
   onClose() {
-    this.hostName = null;
-    this.serverProtocolType = null;
-    this.serverIpAddress = null;
-    this.serverPort = null;
-    this.serviceName = null;
+    this.visibleUser = false;
   }
 
   onDelete(recordId: string) {
-    debugger
-    console.log('Deleting record with ID:', recordId);
-    this.authenticationService.deleteServer(recordId).subscribe(
-      (response: any) => {
-        console.log("deleted successfully");
-        this.messageService.add({ summary: response.status, detail: response.statusMsg });
-        this.servers = response.data;
-        if (this.servers) {
-          let i = 1;
-          for (let server of this.servers) {
-            server.slNo = i++;
+    this.authenticationService.deleteServer(recordId).subscribe({
+      next: (response: any) => {
+        if (response.status == 'Request Status Success ') {
+          this.messageService.add({ severity: 'success', summary: response.status, detail: response.statusMsg });
+          this.servers = response.data;
+          if (this.servers) {
+            let i = 1;
+            for (let server of this.servers) {
+              server.slNo = i++;
+            }
           }
+        } else {
+          this.messageService.add({ severity: 'error', summary: response.status, detail: response.statusMsg });
         }
+
       },
-      (error: any) => {
-        console.log("some error");
-        this.messageService.add({ summary: error.status, detail: error.statusMsg });
+      error: (error: any) => {
+        this.messageService.add({ severity: 'error', summary: error.status, detail: error.statusMsg });
       }
-    );
+    });
   }
 
   openPieChart() {
@@ -176,17 +177,21 @@ export class AdminComponent implements OnInit {
 
     this.authorizationService.registerUser(user).subscribe({
       next: (response) => {
-        this.messageService.add({ summary: response.status, detail: response.statusMsg });
-        this.userFirstName = null;
-        this.userLastName = null;
-        this.email = null;
-        this.password = null;
-        this.userRole = null;
+        if (response.status == 'Request Status Success ') {
+          this.messageService.add({ severity: 'success', summary: response.status, detail: response.statusMsg });
+        }
+        else {
+          this.messageService.add({ severity: 'error', summary: response.status, detail: response.statusMsg });
+        }
       },
       error: (error) => {
-        this.messageService.add({ summary: error.status, detail: error.statusMsg });
+        this.messageService.add({ severity: 'error', summary: error.status, detail: error.statusMsg });
       }
     });
+  }
+
+  addUser() {
+    this.visibleUser = true;
   }
 
 }

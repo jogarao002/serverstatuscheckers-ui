@@ -44,7 +44,29 @@ export class LoginComponent implements OnInit {
 
     // Trim the final CAPTCHA string to remove the last space
     this.generatedCaptcha = captcha.trim();
+    this.getName();
+  }
 
+  getName(): void {
+    setTimeout(() => {
+      const canvas = document.getElementById(
+        "textCanvas"
+      ) as HTMLCanvasElement;
+      const tCtx: any = canvas.getContext("2d");
+      const imageElem: any = document.getElementById("image");
+      const font = "600 50px Parisienne";
+      tCtx.font = font;
+      tCtx.canvas.width = tCtx.measureText(this.generatedCaptcha).width + 50;
+      tCtx.canvas.height = 100;
+      tCtx.font = font;
+      tCtx.fillStyle = "#000";
+      tCtx.fillText(this.generatedCaptcha, 20, 50);
+      setTimeout(() => {
+        imageElem.src = tCtx.canvas.toDataURL();
+        imageElem.width = tCtx.measureText(this.generatedCaptcha).width + 50;
+        imageElem.height = 50;
+      }, 500);
+    }, 500);
   }
 
   onSubmit() {
@@ -52,26 +74,26 @@ export class LoginComponent implements OnInit {
       loginUserName: this.loginUserName,
       loginPassword: this.loginPassword
     };
+    this.authenticationService.loginUser(loginData).subscribe({
+      next: (response: any) => {
+        if (response.status == 'Request Status Success ') {
+          this.messageService.add({ severity: 'success', summary: response.status, detail: response.statusMsg });
+          this.authenticationService.storeUserData(response);  // Store token and role
+          const role = this.authenticationService.getUserRole();
 
-    this.authenticationService.loginUser(loginData).subscribe(
-      (response: any) => {
-        debugger
-        console.log('Login successful', response);
-        this.messageService.add({summary: response.status, detail: response.statusMsg});
-        this.authenticationService.storeUserData(response);  // Store token and role
-        const role = this.authenticationService.getUserRole();
-
-        if (role === 'admin') {
-          this.router.navigateByUrl('/admin');
-        } else if (role === 'user') {
-          this.router.navigateByUrl('/dashboard');
+          if (role === 'admin') {
+            this.router.navigateByUrl('/admin');
+          } else if (role === 'user') {
+            this.router.navigateByUrl('/dashboard');
+          }
+        } else {
+          this.messageService.add({ severity: 'warn', summary: response.status, detail: response.statusMsg });
         }
       },
-      (error: any) => {
-        console.error('Login failed', error);
-        this.messageService.add({summary: 'error', detail: 'ERR_CONNECTION_REFUSED'});
+      error: (error) => {
+        this.messageService.add({ severity: 'warn', summary: 'warning message', detail: 'We could not process your request' });
       }
-    );
+    });
   }
 
 

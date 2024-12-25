@@ -10,19 +10,14 @@ body{
     font-style: normal;
     font-size: 12px;
 }
-
-p-button{
-    width: auto;
-    height: auto;
-    padding: 5px;
-    margin: 0px 5px;
+label{
     font-size: 12px;
 }
+
 table th{
     background-color: rgb(255 219 174);
     font-size: 12px;
     font-weight: 600;
-    border-top: 1px solid gray;
     padding: 10px 20px;
     
 }
@@ -39,6 +34,8 @@ input[type='text'], .p-dropdown, .p-password{
     width: 100% ;
     height: 35px;
     border-radius: 2px !important; 
+    font-size: 12px;
+    font-weight: 600;
 }
 .action-btns{
     padding: 8px 10px !important;
@@ -48,3 +45,51 @@ input[type='text'], .p-dropdown, .p-password{
     height: 35px !important;
     border: 0px !important
 }
+.p-button{
+    color: #fff;
+    background: #137e89 !important;
+    border: 1px solid #137e89 !important;
+    padding: 11px !important;
+    height: 2rem;
+    border-radius: 3px;
+    margin-left: 0.5rem;
+    font-size: 14px;
+    box-shadow: none !important;
+}
+.p-datatable>.p-datatable-wrapper{
+    width: 100%;
+}
+.p-dropdown-panel .p-dropdown-items-wrapper ul{
+    padding: 10px;
+    font-size: 12px;
+}
+.p-dropdown-panel .p-dropdown-items .p-dropdown-item{
+    padding: 10px;
+}
+.p-dropdown-label{
+    padding: 9px 10px 10px 10px;
+    font-size: 12px;
+}
+.reg-btn{
+    color: #fff;
+    background: #137e89 !important;
+    border: 1px solid #137e89 !important;
+    padding: 0px 34px !important;
+    font-size: 14px;
+    box-shadow: none;
+}
+.p-button:focus-visible {
+    outline: none !important;
+}
+
+.error-message small{
+    position: relative !important;
+    display: block !important;
+    width: auto !important;
+    padding: 0px !important;
+    color: #ff001b !important;
+    line-height: 0em !important;
+    background: none !important;
+    font-size: 10px !important;
+    top: 10px !important;
+  }

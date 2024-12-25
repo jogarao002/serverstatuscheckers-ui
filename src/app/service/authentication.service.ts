@@ -22,7 +22,6 @@ export class AuthenticationService {
   }
 
   deleteServer(recordId : any): Observable<any>{
-    debugger
     return this.http.delete(`http://localhost:9010/server_details/remove/${recordId}`);
   }
 
