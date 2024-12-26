@@ -10,11 +10,12 @@ import { ServerDetails } from '../../interface/server-details';
 import { AuthenticationService } from '../../service/authentication.service';
 import { CronJob } from 'cron';
 import { ToastModule } from 'primeng/toast';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
 import { DialogModule } from 'primeng/dialog';
 import { CardModule } from 'primeng/card';
 import { PasswordModule } from 'primeng/password';
+import { ConfirmPopupModule } from 'primeng/confirmpopup';
 
 
 @Component({
@@ -25,7 +26,8 @@ import { PasswordModule } from 'primeng/password';
     DropdownModule, FormsModule,
     ToastModule, CardModule,
     ReactiveFormsModule, DialogModule,
-    PasswordModule],
+    PasswordModule, ConfirmPopupModule],
+  providers: [ConfirmationService],
   templateUrl: './admin.component.html',
   styleUrl: './admin.component.css'
 })
@@ -56,7 +58,7 @@ export class AdminComponent implements OnInit {
   userRole: any;
 
 
-  constructor(private authorizationService: AuthorizationService, private authenticationService: AuthenticationService, private messageService: MessageService, private router: Router) {
+  constructor(private authorizationService: AuthorizationService, private confirmationService: ConfirmationService, private authenticationService: AuthenticationService, private messageService: MessageService, private router: Router) {
     this.roles = [
       { name: 'Admin', value: 'admin' },
       { name: 'User', value: 'user' }
@@ -154,6 +156,21 @@ export class AdminComponent implements OnInit {
       },
       error: (error: any) => {
         this.messageService.add({ severity: 'error', summary: error.status, detail: error.statusMsg });
+      }
+    });
+  }
+
+  confirm(event: Event, recordId: string) {
+    this.confirmationService.confirm({
+      target: event.target as EventTarget,
+      message: 'Do you want to delete this record?',
+      icon: 'pi pi-info-circle',
+      acceptButtonStyleClass: 'p-button-danger p-button-sm',
+      accept: () => {
+        this.onDelete(recordId);
+      },
+      reject: () => {
+        this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'You have rejected', life: 3000 });
       }
     });
   }
