@@ -5,6 +5,8 @@ import { Observable } from 'rxjs/internal/Observable';
 import { jwtDecode } from 'jwt-decode';
 import { Router } from '@angular/router';
 import { ServerDetails } from '../interface/server-details';
+import { environment } from '../../environments/environment';
+
 
 @Injectable({
   providedIn: 'root'
@@ -14,15 +16,15 @@ export class AuthenticationService {
   constructor(private http: HttpClient, private router: Router) { }
 
   loginUser(login: Login): Observable<any> {
-    return this.http.post("http://localhost:9010/server_details/login", login);
+    return this.http.post(`${environment.base_url}${environment.root_url}${environment.login}`, login);
   }
 
   saveServerDetails(serverDetails : ServerDetails){
-    return this.http.post("http://localhost:9010/server_details/add", serverDetails);
+    return this.http.post(`${environment.base_url}${environment.root_url}${environment.add}`, serverDetails);
   }
 
   deleteServer(recordId : any): Observable<any>{
-    return this.http.delete(`http://localhost:9010/server_details/remove/${recordId}`);
+    return this.http.delete(`${environment.base_url}${environment.root_url}${environment.remove}/${recordId}`);
   }
 
   // Check if the user is authenticated (token exists and is valid)

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { AuthorizationService } from '../../service/authorization.service';
 import { TableModule } from 'primeng/table';
 import { CommonModule } from '@angular/common';
@@ -14,7 +14,7 @@ import { MessageService } from 'primeng/api';
   styleUrl: './dashboard.component.css',
   encapsulation: ViewEncapsulation.None
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
 
   servers: any[] = [];
 
@@ -22,11 +22,16 @@ export class DashboardComponent implements OnInit {
 
   cols: any[] = [];
 
+  intervalId: any;
+
   constructor(private authorizationService: AuthorizationService, private messageService: MessageService) { }
 
   ngOnInit(): void {
     this.getAllServersList();
-    this.cronJob.start();
+    // Set the interval to call getAllServersList every 10 minutes (600,000 ms)
+    this.intervalId = setInterval(() => {
+      this.getAllServersList();
+    }, 600000); // 600,000 ms = 10 minutes
     this.cols = [
       { field: 'slNo', header: 'S.NO' },
       { field: 'hostName', header: 'Host Name' },
@@ -62,9 +67,11 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  cronJob: CronJob = new CronJob('*/10 * * * *', () => {
-    //console.log('Task is running every 2 minute');
-    this.getAllServersList();
-  });
+  ngOnDestroy(): void {
+    // Clear the interval when the component is destroyed
+    if (this.intervalId) {
+      clearInterval(this.intervalId);
+    }
+  }
 
 }

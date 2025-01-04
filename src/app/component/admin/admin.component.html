@@ -17,6 +17,7 @@
         </div>
 
         <div class="col-12 mt-3">
+            <p-confirmPopup />
             <p-table [columns]="cols" [value]="servers" [paginator]="true" [rows]="10">
                 <ng-template pTemplate="header" let-columns>
                     <tr>
@@ -36,7 +37,7 @@
                                     style="color: #fff; background: #59ca7d; padding: 3px 0px; border-radius: 25px; width:120px; display: inline-block; text-align: center;font-weight: 500;">{{rowData[col.field]}}</span></ng-template>
                             <ng-template #elseBlock>{{rowData[col.field]}}</ng-template>
                         </td>
-                        <p-confirmPopup />
+                        
                         <td><p-button (click)="confirm($event, rowData.id)" icon="pi pi-trash" iconPos="left"
                                 class="p-button-danger action-btns" label="Delete" severity="danger"
                                 [outlined]="true" /></td>
